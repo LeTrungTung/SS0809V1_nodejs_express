@@ -1,0 +1,13 @@
+#title-blog {
+  text-align: left;
+  margin-top: 20px;
+}
+#status-blog {
+  background-color: #58717d36;
+  border-radius: 5px;
+  text-align: left;
+  padding: 10px;
+}
+#table-blog td:nth-child(6) {
+  width: 10%;
+}

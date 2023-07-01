@@ -1,0 +1,19 @@
+#title-user {
+  text-align: left;
+  margin-top: 20px;
+}
+#status-user {
+  background-color: #58717d36;
+  border-radius: 5px;
+  text-align: left;
+  padding: 10px;
+}
+#table-user td:nth-child(n + 3):nth-child(-n + 9) {
+  text-align: left;
+}
+.btn-pagination {
+  border-radius: 0 !important;
+}
+.btn-pagination:hover {
+  background-color: #ccc !important;
+}

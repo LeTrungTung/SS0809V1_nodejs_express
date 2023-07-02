@@ -11,3 +11,7 @@
 #table-blog td:nth-child(6) {
   width: 10%;
 }
+.modal-drag-handle {
+  cursor: move;
+  padding: 10px;
+}

@@ -10,7 +10,23 @@ const getAllBlog = (req, res) => {
   blogModel.modelGetAllBlog(res);
 };
 
+const editBlog = (req, res) => {
+  const id = Number(req.params.id);
+  const { userId, title, body } = req.body;
+  const editContent = { userId, title, body };
+
+  blogModel.modelEditBlog(id, editContent, res);
+};
+
+const deleteBlog = (req, res) => {
+  // do something
+  const id = req.params.id;
+  blogModel.modelDeleteBlog(id, res);
+};
+
 module.exports = {
   addAllBlogs,
   getAllBlog,
+  editBlog,
+  deleteBlog,
 };

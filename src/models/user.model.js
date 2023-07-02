@@ -104,19 +104,32 @@ const modelDeleteUser = (id, res) => {
       res.status(500).json({ msg: "Server error" });
       return;
     }
-    if (result.length == 0) {
+    if (result.length === 0) {
       res.status(400).json({ message: "User not found" });
       return;
     }
-    // nếu tìm thấy id thì tiến hành xoá
-    const deleteData = `DELETE FROM users WHERE id_user = ?`;
-    sql.query(deleteData, [id], (err, result) => {
+    // nếu tìm thấy id thì tiến hành xoá dữ liệu trong blogs, users
+    // B1: Xoá các users trong bảng con blogs
+    const deleteUserInBlogs = `DELETE FROM blogs WHERE userId = ?;`;
+    sql.query(deleteUserInBlogs, [id], (err, result) => {
       if (err) {
         console.log("loi roi");
         res.status(500).json({ msg: "Loi server" });
         return;
+      } else {
+        // B2: Sau khi xoá user trong blogs thì xoá users trong bảng users tại dòng id
+        const deleteUserInUsers = `DELETE FROM users WHERE id_user = ?`;
+        sql.query(deleteUserInUsers, id, (error) => {
+          if (error) {
+            console.error("Error updating tables: ", error);
+            res.status(500).json({ message: "Server error" });
+          } else {
+            res
+              .status(200)
+              .json({ message: "User deleted successfully" });
+          }
+        });
       }
-      res.status(200).json({ msg: "Xoá user thành công" });
     });
   });
 };

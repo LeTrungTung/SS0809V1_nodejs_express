@@ -30,7 +30,70 @@ const modelGetAllBlog = (res) => {
   });
 };
 
+const modelEditBlog = (id, editContent, res) => {
+  // Kiểm tra id đã tồn tại trong CSDL chưa
+  const checkIdBlog = `SELECT * FROM blogs WHERE id = ?`;
+  sql.query(checkIdBlog, [id], (err, result) => {
+    if (err) {
+      console.error("Error executing query: ", err);
+      res.status(500).json({ msg: "Server error" });
+      return;
+    }
+    if (result.length === 0) {
+      res.status(400).json({ message: "Blog not found" });
+      return;
+    }
+    let query = `UPDATE blogs SET userId=?, title=?,body=? WHERE id=?`;
+    const blog = [
+      editContent.userId,
+      editContent.title,
+      editContent.body,
+      id,
+    ];
+    console.log(55555, blog);
+    sql.query(query, blog, (err, result) => {
+      if (err) {
+        console.log(err);
+        res.status(500).json({ msg: err });
+        return;
+      }
+      res.status(200).json({ msg: "Update blog successfully" });
+    });
+  });
+};
+
+const modelDeleteBlog = (id, res) => {
+  // Kiểm tra id đã tồn tại trong CSDL chưa
+  const checkIdBlog = `SELECT * FROM blogs WHERE id = ?`;
+  sql.query(checkIdBlog, [id], (err, result) => {
+    if (err) {
+      console.error("Error executing query: ", err);
+      res.status(500).json({ msg: "Server error" });
+      return;
+    }
+    if (result.length === 0) {
+      res.status(400).json({ message: "Blog not found" });
+      return;
+    }
+    // nếu tìm thấy id thì tiến hành xoá dữ liệu trong blogs
+    const deleteBlog = `DELETE FROM blogs WHERE id = ?;`;
+    sql.query(deleteBlog, [id], (err, result) => {
+      if (err) {
+        console.log("loi roi");
+        res.status(500).json({ msg: "Loi server" });
+        return;
+      } else {
+        res
+          .status(200)
+          .json({ message: "Blog deleted successfully" });
+      }
+    });
+  });
+};
+
 module.exports = {
   addAllBlogsFromFile,
   modelGetAllBlog,
+  modelEditBlog,
+  modelDeleteBlog,
 };
